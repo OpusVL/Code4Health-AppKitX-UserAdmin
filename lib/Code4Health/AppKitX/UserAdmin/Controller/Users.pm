@@ -5,7 +5,6 @@ use Code4Health::AppKitX::UserAdmin::HTML::FormHandler::RegistrationForm;
 use namespace::autoclean;
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
-with 'OpusVL::AppKitX::PreferencesAdmin::Role::ParameterValueEditing';
 
 __PACKAGE__->config
 (
@@ -20,6 +19,18 @@ has 'registration_form' => (
     isa => 'Object',
     builder => '_build_registration_form'
 );
+
+has 'prf_model' => (
+    is => 'ro',
+    default => 'Users',
+);
+
+has 'prf_owner' => (
+    is => 'ro',
+    default => 'Person'
+);
+
+with 'OpusVL::AppKitX::PreferencesAdmin::Role::ObjectPreferences';
 
 sub _build_registration_form {
     my $form = Code4Health::AppKitX::UserAdmin::HTML::FormHandler::RegistrationForm->new(

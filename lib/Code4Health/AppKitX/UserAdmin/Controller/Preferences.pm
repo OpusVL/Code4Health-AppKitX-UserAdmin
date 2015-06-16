@@ -5,7 +5,7 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu' }
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
-with 'OpusVL::AppKitX::PreferencesAdmin::Role::Controller';
+with 'OpusVL::AppKitX::PreferencesAdmin::Role::Preferences';
 
 __PACKAGE__->config
 (
