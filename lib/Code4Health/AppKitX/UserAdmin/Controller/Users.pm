@@ -104,6 +104,12 @@ sub edit
     $form->default_values($defaults);
     
     if($form->submitted_and_valid) {
+        $user->update({
+            email_address => $form->param_value('email_address'),
+            title => $form->param_value('title'),
+            first_name => $form->param_value('first_name'),
+            surname => $form->param_value('surname'),
+        });
         $self->update_prefs_values($c, $user);
         $c->res->redirect($c->req->uri);
         $c->flash->{status_msg} = "User saved";
