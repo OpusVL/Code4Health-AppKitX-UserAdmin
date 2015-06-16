@@ -94,6 +94,7 @@ sub edit
     $self->add_final_crumb($c, $user->username);
 
     $self->construct_global_data_form($c, { object => $user });
+    $form->process;
 
     my $defaults = $self->add_prefs_defaults($c, { 
         defaults => {},
@@ -101,6 +102,11 @@ sub edit
     }); 
     $form->default_values($defaults);
     
+    if($form->submitted_and_valid) {
+        $self->update_prefs_values($c, $user);
+        $c->res->redirect($c->req->uri);
+        $c->flash->{status_msg} = "User saved";
+    }
 }
 
 1;
