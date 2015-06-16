@@ -3,13 +3,14 @@ package Code4Health::AppKitX::UserAdmin::Controller::Users;
 use Moose;
 use Code4Health::AppKitX::UserAdmin::HTML::FormHandler::RegistrationForm;
 use namespace::autoclean;
-BEGIN { extends 'Catalyst::Controller'; };
+BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
+with 'OpusVL::AppKitX::PreferencesAdmin::Role::ParameterValueEditing';
 
 __PACKAGE__->config
 (
     appkit_name                 => 'Users',
-    appkit_myclass              => __PACKAGE__,
+    appkit_myclass              => 'Code4Health::AppKitX::UserAdmin',
     appkit_method_group         => 'Users',
     appkit_shared_module        => 'Users',
 );
@@ -32,6 +33,13 @@ sub _build_registration_form {
     );
 
     return $form;
+}
+
+sub auto : Action {
+    my ($self, $c) = @_;
+    my $index_url = $c->uri_for($self->action_for('list'));
+    $c->stash->{index_url} = $index_url;
+    $self->add_breadcrumb($c, { name => 'Users', url => $index_url });
 }
 
 sub list
@@ -65,7 +73,23 @@ sub edit
     : Chained('user')
     : PathPart('edit')
     : AppKitFeature('Users')
+    : AppKitForm
 {
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
+    my $user = $c->stash->{user};
+
+    $self->add_final_crumb($c, $user->username);
+
+    $self->construct_global_data_form($c, { object => $user });
+
+    my $defaults = $self->add_prefs_defaults($c, { 
+        defaults => {},
+        object => $user,
+    }); 
+    $form->default_values($defaults);
+    
 }
 
 1;
