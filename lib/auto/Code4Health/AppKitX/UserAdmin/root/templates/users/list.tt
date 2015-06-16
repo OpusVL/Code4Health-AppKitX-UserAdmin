@@ -1,0 +1,12 @@
+<h1>Users</h1>
+<table>
+    [% FOREACH user IN users %]
+        <tr>
+            <td>
+                <a href="[% c.uri_for(c.controller.action_for('edit'), [ user.id ]) %]">
+                    [% user.username %]
+                </a>
+            </td>
+        </tr>
+    [% END %]
+</table>
