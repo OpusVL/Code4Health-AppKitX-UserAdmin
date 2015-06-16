@@ -96,8 +96,9 @@ sub edit
     $self->construct_global_data_form($c, { object => $user });
     $form->process;
 
-    my $defaults = $self->add_prefs_defaults($c, { 
-        defaults => {},
+    my $defaults = $self->_object_defaults($user);
+    $self->add_prefs_defaults($c, { 
+        defaults => $defaults,
         object => $user,
     }); 
     $form->default_values($defaults);
@@ -107,6 +108,17 @@ sub edit
         $c->res->redirect($c->req->uri);
         $c->flash->{status_msg} = "User saved";
     }
+}
+
+sub _object_defaults {
+    my ($self, $object) = @_;
+
+    return {
+        email_address => $object->email_address,
+        title => $object->title,
+        first_name => $object->first_name,
+        surname => $object->surname,
+    };
 }
 
 1;

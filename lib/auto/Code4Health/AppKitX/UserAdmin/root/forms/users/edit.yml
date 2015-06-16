@@ -6,7 +6,25 @@ form_error_message: Oops, looks like there was a problem - please check below an
 elements:
 
   - type: Fieldset
-    legend_loc: "User attributes"
+    legend_loc: "User information"
+    name: fields
+    elements:
+        - type: Email
+          name: email_address
+          label: Email Address
+        - type: Text
+          name: title
+          label: Title
+        - type: Text
+          name: first_name
+          label: First name
+        - type: Text
+          name: surname
+          label: Surname
+
+
+  - type: Fieldset
+    legend_loc: "Extra information"
     name: prf_fields
     elements:
 
