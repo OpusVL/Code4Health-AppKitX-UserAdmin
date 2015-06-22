@@ -35,7 +35,7 @@ sub auto : Action {
 sub index
     : Path
     : Args(0)
-    : NavigationName('Preferences')
+    : NavigationName('Extra Parameters')
     : AppKitFeature('Users')
 {
     my ($self, $c) = @_;

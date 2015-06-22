@@ -1,3 +1,5 @@
+[% META appkitfeature_tablesorter = 1 %]
+
 <div class="content_block">
     <table class="tablesorter">
         <thead>
