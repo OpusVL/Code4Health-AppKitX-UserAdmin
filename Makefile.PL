@@ -14,6 +14,8 @@ requires 'Catalyst::Model::DBIC::Schema';
 requires 'Code4Health::DB';
 requires 'OpusVL::AppKitX::PreferencesAdmin';
 
+test_requires 'OpusVL::AppKitX::PasswordReset';
+
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::More' => '0.88';
