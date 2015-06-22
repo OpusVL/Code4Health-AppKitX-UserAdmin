@@ -4,6 +4,8 @@ use CatalystX::InjectComponent;
 use File::ShareDir qw/module_dir/;
 use namespace::autoclean;
 
+with 'OpusVL::AppKit::RolesFor::Plugin';
+
 our $VERSION = '0.01';
 
 after 'setup_components' => sub {
