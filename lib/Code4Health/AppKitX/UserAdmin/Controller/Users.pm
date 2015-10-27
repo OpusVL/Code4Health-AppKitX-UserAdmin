@@ -75,7 +75,7 @@ sub user
     my ($self, $c, $user_id) = @_;
 
     my $user = $c->model('Users::Person')->find($user_id)
-        or $c->detach('/404');
+        or $c->detach('/not_found');
 
     $c->stash->{user} = $user;
 }
