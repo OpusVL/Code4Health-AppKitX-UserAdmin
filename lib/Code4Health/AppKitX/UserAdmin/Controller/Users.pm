@@ -73,13 +73,31 @@ sub export_users
         }
     };
 
+    my @communities = $c->model('Users')->resultset('Community')->all;
+    my $memberships = sub {
+        my $person = shift;
+        my %memberships = map { $_->community_id => 1 } $person->community_links;
+
+        return map { $memberships{$_->id} ? 'Yes' : 'No' } @communities;
+    };
+
+    my @header = ('First Name', 'Surname', 'Email Address',
+        'Show Membership',
+        'General C4H Emails', 'Community Specific Emails', 'Emails from supporters',
+        map {$_->code} @communities
+    );
     my @people = $c->model('Users')->resultset('Person')->all;
-    my @data = map { [ $_->first_name, $_->surname, $_->email_address, ($_->show_membership ? 'Yes' : 'No'), $ePrefs->($_->email_preferences) ] } @people;
+    my @data = map { [
+        $_->first_name, $_->surname, $_->email_address, 
+        ($_->show_membership ? 'Yes' : 'No'),
+        $ePrefs->($_->email_preferences),
+        $memberships->($_)
+    ] } @people;
     my $csv = Text::CSV->new ( { binary => 1 } )
         or die "Cannot use CSV: ".Text::CSV->error_diag ();
     my $data = '';
     open my $fh, '>', \$data;
-    $csv->print($fh, ['First Name', 'Surname', 'Email Address', 'Show Membership', 'General C4H Emails', 'Community Specific Emails', 'Emails from supporters']);
+    $csv->print($fh, \@header);
     print $fh "\r\n";
     for (@data)
     {

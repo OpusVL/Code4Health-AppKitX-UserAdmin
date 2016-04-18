@@ -13,6 +13,7 @@ requires 'OpusVL::AppKit';
 requires 'Catalyst::Model::DBIC::Schema';
 requires 'Code4Health::DB';
 requires 'OpusVL::AppKitX::PreferencesAdmin';
+requires 'Data::Munge';
 
 test_requires 'OpusVL::AppKitX::PasswordReset';
 
