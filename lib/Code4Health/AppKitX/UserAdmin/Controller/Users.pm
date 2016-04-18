@@ -2,7 +2,10 @@ package Code4Health::AppKitX::UserAdmin::Controller::Users;
 
 use Moose;
 use Code4Health::AppKitX::UserAdmin::HTML::FormHandler::RegistrationForm;
+use Text::CSV;
 use namespace::autoclean;
+use Data::Munge qw/elem/;
+
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
 
@@ -53,6 +56,44 @@ sub auto : Action {
     $self->add_breadcrumb($c, { name => 'Users', url => $index_url });
 }
 
+sub export_users
+  : Local
+  : Args(0)
+  : AppKitFeature('Users')
+{
+    my ($self, $c) = @_;
+    my $ePrefs = sub {
+        my $prefs = shift;
+        if ($prefs) {
+            my @types = qw/members communities supporters/;
+            return map { (elem $_, $prefs) ? 'Yes' : 'No' } @types;
+        }
+        else {
+            return ('No', 'No', 'No');
+        }
+    };
+
+    my @people = $c->model('Users')->resultset('Person')->all;
+    my @data = map { [ $_->first_name, $_->surname, $_->email_address, ($_->show_membership ? 'Yes' : 'No'), $ePrefs->($_->email_preferences) ] } @people;
+    my $csv = Text::CSV->new ( { binary => 1 } )
+        or die "Cannot use CSV: ".Text::CSV->error_diag ();
+    my $data = '';
+    open my $fh, '>', \$data;
+    $csv->print($fh, ['First Name', 'Surname', 'Email Address', 'Show Membership', 'General C4H Emails', 'Community Specific Emails', 'Emails from supporters']);
+    print $fh "\r\n";
+    for (@data)
+    {
+        $csv->print ($fh, $_);
+        print $fh "\r\n";
+    }
+    close $fh;
+
+
+    my $content_type = 'text/csv';
+    my $filename = 'C4H-user-list.csv';
+
+    $c->forward( $c->view('DownloadFile'), [ { content_type => $content_type, body => $data, header => $filename } ] );
+}
 sub list
     : Local
     : Args(0)
@@ -97,12 +138,12 @@ sub edit
     $form->process;
 
     my $defaults = $self->_object_defaults($user);
-    $self->add_prefs_defaults($c, { 
+    $self->add_prefs_defaults($c, {
         defaults => $defaults,
         object => $user,
-    }); 
+    });
     $form->default_values($defaults);
-    
+
     if($form->submitted_and_valid) {
         $user->update({
             email_address => $form->param_value('email_address'),
@@ -154,7 +195,7 @@ sub register
 
 =head1 NAME
 
-Code4Health::AppKitX::UserAdmin::Controller:Users - 
+Code4Health::AppKitX::UserAdmin::Controller:Users -
 
 =head1 DESCRIPTION
 
