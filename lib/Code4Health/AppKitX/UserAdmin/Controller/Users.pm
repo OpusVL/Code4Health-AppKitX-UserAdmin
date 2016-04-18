@@ -84,7 +84,7 @@ sub export_users
     my @header = ('First Name', 'Surname', 'Email Address',
         'Show Membership',
         'General C4H Emails', 'Community Specific Emails', 'Emails from supporters',
-        map {$_->code} @communities
+        map {$_->name} @communities
     );
     my @people = $c->model('Users')->resultset('Person')->all;
     my @data = map { [
