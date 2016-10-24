@@ -2,7 +2,7 @@ requires 'Moose';
 requires 'namespace::autoclean';
 requires 'OpusVL::AppKit';
 requires 'Catalyst::Model::DBIC::Schema';
-requires 'Code4Health::DB';
+requires 'Code4Health::DB' => "0.14";
 requires 'OpusVL::AppKitX::PreferencesAdmin';
 requires 'Data::Munge';
 
