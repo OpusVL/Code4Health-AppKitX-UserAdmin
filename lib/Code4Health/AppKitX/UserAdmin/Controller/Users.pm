@@ -168,6 +168,7 @@ sub edit
             title => $form->param_value('title'),
             first_name => $form->param_value('first_name'),
             surname => $form->param_value('surname'),
+            is_community_admin => $form->param_value('is_community_admin') ? 1 : 0,
         });
         $self->update_prefs_values($c, $user);
         $c->res->redirect($c->req->uri);
@@ -183,6 +184,7 @@ sub _object_defaults {
         title => $object->title,
         first_name => $object->first_name,
         surname => $object->surname,
+        is_community_admin => $object->is_community_admin,
     };
 }
 
