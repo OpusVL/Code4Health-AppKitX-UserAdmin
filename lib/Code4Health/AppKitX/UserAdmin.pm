@@ -6,7 +6,7 @@ use namespace::autoclean;
 
 with 'OpusVL::AppKit::RolesFor::Plugin';
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 after 'setup_components' => sub {
     my $class = shift;
@@ -35,9 +35,12 @@ after 'setup_components' => sub {
 
 =head1 NAME
 
-Code4Health::AppKitX::UserAdmin - 
+Code4Health::AppKitX::UserAdmin - Administration for website users
 
 =head1 DESCRIPTION
+
+This module combines the required components to administrate the users who sign
+up through the website.
 
 =head1 METHODS
 
