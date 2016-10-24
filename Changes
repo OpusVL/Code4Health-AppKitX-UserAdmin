@@ -1,0 +1,6 @@
+{{ $NEXT }}
+
+0.06      2016-10-24 13:38:53+01:00 Europe/London
+
+  - Converted to dzil
+  - Added community admin flag to users
