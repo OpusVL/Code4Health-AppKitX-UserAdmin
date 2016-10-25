@@ -15,6 +15,8 @@ __PACKAGE__->config
     appkit_myclass              => 'Code4Health::AppKitX::UserAdmin',
     appkit_method_group         => 'Users',
     appkit_shared_module        => 'Users',
+    appkit_css                  => ['/static/css/bootstrap.css', '/static/js/datatables/css/jquery.dataTables.css'],
+    appkit_js                   => ['/static/js/cms.js', '/static/js/bootstrap.js', '/static/js/facebox.js', '/static/js/datatables/js/jquery.dataTables.min.js', '/static/js/ace/ace.js'],
 );
 
 has 'registration_form' => (

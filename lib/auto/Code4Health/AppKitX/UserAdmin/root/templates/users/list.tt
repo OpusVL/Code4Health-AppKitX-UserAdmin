@@ -1,18 +1,40 @@
+<script type="text/javascript">
+    $(function() {
+        $('table').dataTable({
+            "aaSorting": [[ 0, "desc" ]],
+        });
+    });
+</script>
+[% META appkitfeature_tablesorter = 1 %]
 <h1>Users</h1>
 <div class="content_block">
   <a class="link_button link_button_edit" href="[% c.uri_for(c.controller.action_for('export_users')) %]">Export List</a>
 </div>
 
 <div class="content_block">
-  <table>
+  <table class="tablesorter">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Address</th>
+        <th>Community Admin</th>
+      </tr>
+    </thead>
+    <tbody>
       [% FOREACH user IN users %]
-          <tr>
-              <td>
-                  <a href="[% c.uri_for(c.controller.action_for('edit'), [ user.id ]) %]">
-                      [% user.username %]
-                  </a>
-              </td>
-          </tr>
+        <tr>
+          <td>
+            [% user.id %]
+          </td>
+          <td>
+            <a href="[% c.uri_for(c.controller.action_for('edit'), [ user.id ]) %]">
+              [% user.username %]
+            </a>
+          </td>
+          <td>
+            [% IF user.is_community_admin %] Yes [% ELSE %] No [% END %]
+        </tr>
       [% END %]
+    </tbody>
   </table>
 </div>
